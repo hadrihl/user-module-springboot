@@ -1,5 +1,7 @@
 package com.example.usermodule.service;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +24,11 @@ public class UserService {
 	
 	public User saveUser(User user) {
 		user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
-		user.setRoles(roleRepository.getRoleByName("USER"));
+		user.setRoles(roleRepository.getRoleByName("USER")); // default role: USER
 		return userRepository.save(user);
+	}
+	
+	public List<User> getAllUsers() {
+		return userRepository.findAll();
 	}
 }

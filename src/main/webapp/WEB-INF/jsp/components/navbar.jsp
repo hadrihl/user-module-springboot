@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
 <nav class="navbar navbar-expand-lg bg-light">
@@ -37,14 +38,19 @@
                                 	<i class="fa-solid fa-user"></i>
                                 	Profile</a>
                                 </li>
+                                
                                 <li><a class="dropdown-item" href="/dashboard">
                                 	<i class="fa-solid fa-table-columns"></i>
                                 	Dashboard</a>
                                 </li>
-                                <li><a class="dropdown-item" href="/jobs">
+                                
+                                <sec:authorize access="hasAuthority('ADMIN')">
+                                <li><a class="dropdown-item" href="/users">
                                 	<i class="fa-solid fa-table-columns"></i>
-                                	Jobs Posting</a>
+                                	Manage Users</a>
                                 </li>
+                                </sec:authorize>
+                                
                                 <li><hr class="dropdown-divider"></li>
                                 <li>
                                 	<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>

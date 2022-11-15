@@ -1,5 +1,7 @@
 package com.example.usermodule.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -34,7 +36,7 @@ public class UserController {
 		User newUser = userService.saveUser(user);
 
 		if(newUser != null) {
-			return "dashboard";
+			return "redirect:index";
 		} else {
 			model.addAttribute("err_string", "Registration unsuccessful. Please try again.");
 			return "signup";
@@ -50,5 +52,22 @@ public class UserController {
 	public String getDashboardPage(Model model, @AuthenticationPrincipal CustomUserDetails loggedinUser) {
 		model.addAttribute("username", loggedinUser.getUsername());
 		return "dashboard";
+	}
+	
+	@GetMapping("/users")
+	public String getManageUsersPage(Model model, @AuthenticationPrincipal CustomUserDetails loggedinUser) {
+		model.addAttribute("username", loggedinUser.getUsername());
+		
+		List<User> users = userService.getAllUsers();
+		
+		if(users != null) {
+			System.out.println("can return users.");
+			model.addAttribute("users", users);
+		} else {
+			System.out.println("cannot return users.");
+			model.addAttribute("err_string_warning", "Users not found.");
+		}
+		
+		return "manage-users";
 	}
 }
