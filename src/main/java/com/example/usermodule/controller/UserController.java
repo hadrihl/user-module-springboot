@@ -1,7 +1,9 @@
 package com.example.usermodule.controller;
 
 import java.io.Console;
+import java.io.IOException;
 import java.net.http.HttpRequest;
+import java.util.Base64;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +17,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.usermodule.entity.User;
 import com.example.usermodule.service.CustomUserDetails;
@@ -94,5 +98,22 @@ public class UserController {
 		userService.setAccountTypeAdmin(user_id, typeAdmin);
 		
 		return "redirect:";
+	}
+	
+	@GetMapping("/profile")
+	public String getProfilePage(Model model, @AuthenticationPrincipal CustomUserDetails loggedinUser) {
+		User user = userService.getUserByUsername(loggedinUser.getUsername());
+		model.addAttribute("username", loggedinUser.getUsername());
+		model.addAttribute("user", user);
+		return "profile";
+	}
+	
+	@PostMapping("/profile")
+	public String updateProfile(Model model, @AuthenticationPrincipal CustomUserDetails loggedinUser,
+			@ModelAttribute("user") User user) throws IOException {
+		
+		System.out.println("user_id: " + user.getId());
+		//userService.updateProfile(user);
+		return "profile";
 	}
 }
