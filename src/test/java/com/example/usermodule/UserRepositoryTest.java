@@ -21,7 +21,7 @@ import com.example.usermodule.repository.UserRepository;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = Replace.NONE)
-@Rollback(false)
+@Rollback(true)
 public class UserRepositoryTest {
 	
 	@Autowired

@@ -76,7 +76,6 @@ public class UserController {
 	public String enableAdminAccount(@PathVariable("id") String user_id, Model model, 
 			@AuthenticationPrincipal CustomUserDetails loggedinUser ) {
 		model.addAttribute("username", loggedinUser.getUsername());
-		System.out.println("user_id: " + user_id); // debugging purposes
 		
 		User user = userService.getUserById(Integer.parseInt(user_id));
 		model.addAttribute("user", user);
@@ -87,7 +86,6 @@ public class UserController {
 	public String updateUserType(@PathVariable("id") String user_id, HttpServletRequest request) {
 		String typeAdmin = request.getParameter("flexCheckAdminDefault");
 		
-		System.out.println("flexCheckAdminDefault: " + typeAdmin);
 		userService.setAccountTypeAdmin(user_id, typeAdmin);
 		
 		return "redirect:";
