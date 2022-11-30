@@ -1,11 +1,8 @@
 package com.example.usermodule.controller;
 
-import java.io.Console;
-import java.net.http.HttpRequest;
+import java.io.IOException;
 import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -14,8 +11,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import com.example.usermodule.entity.User;
 import com.example.usermodule.service.CustomUserDetails;
 import com.example.usermodule.service.UserService;
@@ -94,5 +91,25 @@ public class UserController {
 		userService.setAccountTypeAdmin(user_id, typeAdmin);
 		
 		return "redirect:";
+	}
+	
+	@GetMapping("/profile")
+	public String getProfilePage(Model model, @AuthenticationPrincipal CustomUserDetails loggedinUser) {
+		User user = userService.getUserByUsername(loggedinUser.getUsername());
+		model.addAttribute("username", loggedinUser.getUsername());
+		model.addAttribute("user", user);
+		return "profile";
+	}
+	
+	@PostMapping("/profile")
+	public String updateProfile(Model model, @AuthenticationPrincipal CustomUserDetails loggedinUser,
+			@ModelAttribute("user") User user, 
+			@RequestParam("imgFile") MultipartFile imgFile) throws IOException {
+		
+		User existedUser = userService.updateProfile(user, imgFile);
+		
+		model.addAttribute("user", existedUser);
+		model.addAttribute("username", existedUser.getUsername());
+		return "profile";
 	}
 }

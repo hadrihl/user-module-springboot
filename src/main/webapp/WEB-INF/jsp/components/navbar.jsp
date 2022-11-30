@@ -34,7 +34,7 @@
                                 <c:out value="${username}" />
                             </a>
                             <ul class="dropdown-menu dropdown-menu-lg-end bg-light" >
-                                <li><a class="dropdown-item" href="/profile?id=${user_id}" modelattribute="user_id">
+                                <li><a class="dropdown-item" href="/profile">
                                 	<i class="fa-solid fa-user"></i>
                                 	Profile</a>
                                 </li>
