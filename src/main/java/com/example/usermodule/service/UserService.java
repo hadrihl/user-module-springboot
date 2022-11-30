@@ -27,6 +27,9 @@ public class UserService {
 	@Autowired
 	private RoleRepository roleRepository;
 	
+	@Autowired
+	private ImageService imageService;
+	
 	public User saveUser(User user) {
 		user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
 		user.setRoles(roleRepository.getRoleByName("USER")); // default role: USER
@@ -57,37 +60,19 @@ public class UserService {
 		userRepository.save(user);
 	}
 	
-	public User updateProfile(User tmp) {
+	public User updateProfile(User tmp, MultipartFile imgFile) {
 		User user = userRepository.getReferenceById(tmp.getId());
 		user.getId();
 		user.setEmail(tmp.getEmail());
 		user.setUsername(tmp.getUsername());
 		
-		user.setProfileImage(tmp.getProfileImage());
+		if(imgFile.isEmpty()) {
+		} else {
+			String filename = imageService.uploadProfileImage(imgFile);
+			user.setProfileImage(filename);
+		}
 		
 		userRepository.save(user);
 		return user;
-	}
-	
-	public void uploadToLocalFileSystem(MultipartFile file) {
-		String storageDirectoryPath = "C:\\Users\\hadrihl\\Pictures\\usermodule-img";
-		
-		String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-		Path storageDirectory = Paths.get(storageDirectoryPath);
-		
-		if(!Files.exists(storageDirectory)) {
-			try {
-				Files.createDirectories(storageDirectory);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-		
-		Path destination = Paths.get(storageDirectory.toString() + "\\" + fileName);
-		try {
-			Files.copy(file.getInputStream(), destination, StandardCopyOption.REPLACE_EXISTING);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 }

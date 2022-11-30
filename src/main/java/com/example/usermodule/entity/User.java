@@ -36,7 +36,7 @@ public class User {
 	private Set<Role> roles = new HashSet<>();
 	
 	@Column(name = "profile_image")
-	private byte[] profileImage;
+	private String profileImage;
 	
 	public Integer getId() {
 		return id;
@@ -90,11 +90,11 @@ public class User {
 		this.roles.remove(role);
 	}
 
-	public byte[] getProfileImage() {
+	public String getProfileImage() {
 		return profileImage;
 	}
 
-	public void setProfileImage(byte[] profileImage) {
+	public void setProfileImage(String profileImage) {
 		this.profileImage = profileImage;
 	}
 }
