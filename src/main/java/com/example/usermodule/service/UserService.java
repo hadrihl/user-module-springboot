@@ -66,12 +66,6 @@ public class UserService {
 		user.setEmail(tmp.getEmail());
 		user.setUsername(tmp.getUsername());
 		
-		if(imgFile.isEmpty()) {
-		} else {
-			String filename = imageService.uploadProfileImage(imgFile);
-			user.setProfileImage(filename);
-		}
-		
 		userRepository.save(user);
 		return user;
 	}
