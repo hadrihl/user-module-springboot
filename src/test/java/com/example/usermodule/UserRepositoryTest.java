@@ -21,7 +21,7 @@ import com.example.usermodule.repository.UserRepository;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = Replace.NONE)
-@Rollback(true)
+@Rollback(false)
 public class UserRepositoryTest {
 	
 	@Autowired
@@ -34,11 +34,11 @@ public class UserRepositoryTest {
 	private TestEntityManager em;
 	
 	@Test
-	public void test_create_new_user() {
+	public void test_create_admin_user() {
 		User user = new User();
 		
 		user.setUsername("admin");
-		user.setEmail("hadrihilmi@gmail.com");
+		user.setEmail("admin@example.com");
 		user.setPassword(new BCryptPasswordEncoder().encode("password"));
 		
 		User savedUser = userRepository.save(user);
@@ -48,21 +48,12 @@ public class UserRepositoryTest {
 	}
 	
 	@Test
-	public void test_create_new_roles() {
-	
-		Role USER = new Role("USER");
-		Role ADMIN = new Role("ADMIN");
-		
-		roleRepository.saveAll(List.of(USER, ADMIN));
-	}
-	
-	@Test
-	public void test_set_roles_to_user() {
+	public void test_set_roles_to_admin_user() {
 		User admin = userRepository.findUserByUsername("admin");
 		
 		if(admin != null) {
-			Role USER = roleRepository.getRoleById(1);
-			Role ADMIN = roleRepository.getRoleById(2);
+			Role USER = roleRepository.getRoleByName("USER");
+			Role ADMIN = roleRepository.getRoleByName("ADMIN");
 			
 			admin.setRoles(USER);
 			admin.setRoles(ADMIN);
@@ -74,8 +65,8 @@ public class UserRepositoryTest {
 	}
 
 	@Test
-	public void test_get_user_by_email() {
-		User user = userRepository.findUserByEmail("hadrihilmi@gmail.com");
+	public void test_get_admin_user_by_email() {
+		User user = userRepository.findUserByEmail("admin@example.com");
 		
 		User savedUser = em.find(User.class, user.getId());
 		
@@ -83,9 +74,14 @@ public class UserRepositoryTest {
 	}
 	
 	@Test
-	public void test_user_password() {
-		User user = userRepository.findUserByEmail("hadrihilmi@gmail.com");
+	public void test_create_generic_user() {
+		User user = new User();
+		user.setUsername("david");
+		user.setEmail("david@example.com");
+		user.setPassword(new BCryptPasswordEncoder().encode("password"));
+		user.setRoles(roleRepository.getRoleByName("USER"));
 		
-		assertThat(true).isEqualTo(new BCryptPasswordEncoder().matches("password", user.getPassword()));	
+		User existedUser = userRepository.save(user);
+		assertThat(existedUser.getEmail()).isEqualTo(user.getEmail());
 	}
 }
