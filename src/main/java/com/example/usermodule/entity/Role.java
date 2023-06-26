@@ -1,5 +1,6 @@
 package com.example.usermodule.entity;
 
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -22,7 +23,7 @@ public class Role {
 	
 	@ManyToMany(mappedBy = "roles")
 	private Set<User> users = new HashSet<>();
-	
+
 	public Role() {
 		//default constructor
 	}

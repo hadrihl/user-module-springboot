@@ -39,7 +39,7 @@ public class UserController {
 		User newUser = userService.saveUser(user);
 
 		if(newUser != null) {
-			return "redirect:index";
+			return "redirect:signin";
 		} else {
 			model.addAttribute("err_string", "Registration unsuccessful. Please try again.");
 			return "signup";
@@ -110,4 +110,11 @@ public class UserController {
 		model.addAttribute("username", existedUser.getUsername());
 		return "profile";
 	}
+	
+	@GetMapping("users/{id}/delete")
+	public String deleteUser(@PathVariable("id") Integer id) {
+		userService.deleteUser(id);
+		return "redirect:/users";
+	}
+	
 }

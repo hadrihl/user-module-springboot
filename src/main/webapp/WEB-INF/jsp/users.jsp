@@ -110,7 +110,7 @@
       						</c:forEach>
       					</td>
       					<td><a href="/users/${user.id}" class="btn btn-secondary btn-sm">Edit</a></td>
-      					<td><a href="#" class="btn btn-danger btn-sm">Delete</a></td>
+      					<td><a href="/users/${user.id}/delete" class="btn btn-danger btn-sm">Delete</a></td>
       					</tr>
       					</c:forEach>
       					

@@ -84,4 +84,10 @@ public class UserRepositoryTest {
 		User existedUser = userRepository.save(user);
 		assertThat(existedUser.getEmail()).isEqualTo(user.getEmail());
 	}
+	
+	@Test
+	public void test_delete_generic_user() {
+		User user = userRepository.findUserByEmail("mary@example.com");
+		userRepository.deleteById(user.getId());
+	}
 }

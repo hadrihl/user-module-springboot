@@ -52,9 +52,9 @@ public class UserService {
 		User user = userRepository.getReferenceById(Integer.parseInt(user_id));
 		
 		if(enabledAdmin == null) {
-			user.removeRoles(roleRepository.findById(2).get());
+			user.removeRoles(roleRepository.getRoleByName("ADMIN"));
 		} else {
-			user.setRoles(roleRepository.findById(2).get());
+			user.setRoles(roleRepository.getRoleByName("ADMIN"));
 		}
 		
 		userRepository.save(user);
@@ -74,5 +74,9 @@ public class UserService {
 		
 		userRepository.save(user);
 		return user;
+	}
+	
+	public void deleteUser(Integer id) {
+		userRepository.deleteById(id);
 	}
 }

@@ -6,12 +6,7 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
 @SpringBootApplication
-public class UserModuleApplication extends SpringBootServletInitializer {
-
-	@Override
-	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-		return application.sources(UserModuleApplication.class);
-	}
+public class UserModuleApplication {
 	
 	public static void main(String[] args) {
 		SpringApplication.run(UserModuleApplication.class, args);
